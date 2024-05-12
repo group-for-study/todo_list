@@ -3,7 +3,7 @@ import React from 'react';
 interface TodoProps {
   todoInfo: string;
   index: number;
-  button: React.ReactNode
+  button: React.ReactNode;
 }
 
 export function Todo({ todoInfo, button }: TodoProps) {

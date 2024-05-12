@@ -1,5 +1,5 @@
-import logo from "../../images/group_logo.jpg";
-import "../../styles/App.css";
+import logo from '../../images/group_logo.jpg';
+import '../../styles/App.css';
 
 function Header() {
   return (
