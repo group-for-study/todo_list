@@ -1,11 +1,11 @@
-const { resolve } = require("node:path");
+const { resolve } = require('node:path');
 
-const project = resolve(process.cwd(), "tsconfig.json");
+const project = resolve(process.cwd(), 'tsconfig.json');
 
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
-  extends: ["eslint:recommended", "prettier", "eslint-config-turbo"],
-  plugins: ["only-warn", '@typescript-eslint/eslint-plugin'],
+  extends: ['eslint:recommended', 'prettier', 'eslint-config-turbo'],
+  plugins: ['@typescript-eslint/eslint-plugin'],
   globals: {
     React: true,
     JSX: true,
@@ -15,7 +15,7 @@ module.exports = {
     jest: true,
   },
   settings: {
-    "import/resolver": {
+    'import/resolver': {
       typescript: {
         project,
       },
@@ -23,13 +23,13 @@ module.exports = {
   },
   ignorePatterns: [
     // Ignore dotfiles
-    ".*.js",
-    "node_modules/",
-    "dist/",
+    '.*.js',
+    'node_modules/',
+    'dist/',
   ],
   overrides: [
     {
-      files: ["*.js?(x)", "*.ts?(x)"],
+      files: ['*.js?(x)', '*.ts?(x)'],
     },
   ],
   rules: {
@@ -37,6 +37,6 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    "prettier/prettier": [1, {"useTabs": true}]
+    'prettier/prettier': [1, { useTabs: true }],
   },
 };
