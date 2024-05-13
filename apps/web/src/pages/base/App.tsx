@@ -1,5 +1,5 @@
 import Header from './Header';
-import TodoList from '../../components/TodoList';
+import {TodoList} from '../../components/TodoList';
 
 function App() {
   return (
