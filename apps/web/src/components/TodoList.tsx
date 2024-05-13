@@ -8,7 +8,7 @@ export function TodoList() {
   const todoInputRef = useRef<HTMLInputElement>(null);
 
   const successTodo = (i: number): void => {
-    console.log(`successTodo : ${successTodo}`);
+    console.log(`successTodo`);
     const updateTodoList = todoList.filter((_, index: number): boolean => index !== i);
     setTodoList(updateTodoList)
     todoInputRef.current!.focus();
