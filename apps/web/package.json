@@ -18,7 +18,9 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@repo/config": "*"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@repo/config": "*",
+    "eslint-plugin-react": "^7.34.1"
   },
   "scripts": {
     "dev": "react-scripts start",

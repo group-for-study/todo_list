@@ -1,13 +1,13 @@
 {
   "exclude": ["node_modules"],
-  "extends": "../../packages/config/typescript-base.json",
+  "extends": "@repo/config/typescript-base.json",
   //compilerOptions 속성은 생략될 수 있으며 생략하면 컴파일러의 기본 값이 사용됨.
   "compilerOptions": {
     "target": "es5", //타입스크립트 파일을 어떤 버전의 자바스크립트로 바꿔줄지 정하는 부분(기본값)
     // 커스텀하게 라이브러리를 쓰려고 할 때 lib 정의. 여기에 항목을 정하지 않았다면 target에서 지정한 기본값 버전에 따라 정의됨.
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true, //true 라면 파일의 확장자가 .js, .jsx 사용 가능. 기본은 .ts, .tsx 및 .d.ts
-    "module": "esnext", //모듈을 위한 코드 생성 설정 (none, commonjs, amd, system, umd, es2015, es2020 or esnext)
+    "module": "CommonJS", //모듈을 위한 코드 생성 설정 (none, commonjs, amd, system, umd, es2015, es2020 or esnext)
     "noEmit": true, //결과 파일을 내보낼지에 대한 여부
     "jsx": "react-jsx" // JSX 코드 생성 설정 (preserve, react-native, 혹은 react-jsx),
   },
