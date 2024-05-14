@@ -1,0 +1,26 @@
+@import 'assets/styles/variables.scss';
+
+.button {
+  padding: 0.4rem 0.6rem;
+  height: 100%;
+
+  border-radius: 0.5rem;
+  border: none;
+
+  text-align: center;
+  white-space: nowrap;
+  &.default {
+    background-color: $info;
+    color: $white;
+  }
+  &.round {
+    border-radius: 3rem;
+  }
+  &.white {
+    background-color: $white;
+    color: $dark-gray;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}
