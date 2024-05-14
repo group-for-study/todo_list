@@ -9,7 +9,8 @@
     "allowJs": true, //true 라면 파일의 확장자가 .js, .jsx 사용 가능. 기본은 .ts, .tsx 및 .d.ts
     "module": "CommonJS", //모듈을 위한 코드 생성 설정 (none, commonjs, amd, system, umd, es2015, es2020 or esnext)
     "noEmit": true, //결과 파일을 내보낼지에 대한 여부
-    "jsx": "react-jsx" // JSX 코드 생성 설정 (preserve, react-native, 혹은 react-jsx),
+    "jsx": "react-jsx", // JSX 코드 생성 설정 (preserve, react-native, 혹은 react-jsx),
+    "baseUrl": "src"
   },
   "include": [
     "src" // 프로그램에 포함할 파일 이름 또는 패턴의 배열을 지정. (src/**/*, tests/**/*) 예시처럼 해당 파일이 가진 디렉토리를 기준으로 확인됨.
