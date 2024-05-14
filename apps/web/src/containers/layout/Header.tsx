@@ -1,26 +1,22 @@
 import logo from 'assets/images/group_logo.jpg';
-import 'assets/styles/App.css';
+import style from './Header.module.scss';
 
 function Header() {
   return (
     <>
-      <header className="App-header">
-        <div className="App-logo">
+      <header className={style.header}>
+        <div className={style.logo}>
           <img src={logo} alt="logo" />
         </div>
-        <div className="App-description">
-          <p>To Do List</p>
-        </div>
-        <div className="App-link">
-          <a
-            // className="App-link"
-            href="https://github.com/orgs/group-for-study/repositories"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Github Repository
-          </a>
-        </div>
+        <p className={style.description}>TODO LIST</p>
+        <a
+          className={style.link}
+          href="https://github.com/orgs/group-for-study/repositories"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Github
+        </a>
       </header>
     </>
   );

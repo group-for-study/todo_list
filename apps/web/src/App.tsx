@@ -1,11 +1,12 @@
 import Header from 'containers/layout/Header';
-import TodoList from 'pages/todoList/TodoList';
+import TodoList from 'containers/todoList/TodoList';
+import 'assets/styles/global.scss';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <div className="App-Body">
+    <div className="back_ground">
+      <div className="App">
+        <Header />
         <TodoList />
       </div>
     </div>

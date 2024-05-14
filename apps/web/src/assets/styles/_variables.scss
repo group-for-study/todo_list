@@ -1,0 +1,42 @@
+$max-width: 720px;
+$padding: 16px;
+
+$gray: #eeeeee;
+$gray-1: #d5d5d5;
+$dark-gray: #343a40;
+
+$primary: #007bff;
+$secondary: #6c757d;
+$success: #28a745;
+$danger: #dc3545;
+$warning: #ffc107;
+$info: #17a2b8;
+$muted: #6c757d;
+$white: #ffffff;
+
+$light-primary: #6fb4ff;
+$light-secondary: #f9aeed;
+$light-success: #b7ffc7;
+$light-danger: #f799a2;
+$light-warning: #fee79f;
+$light-info: #b2f3fd;
+$light-muted: #c4c4c4;
+
+// @media query
+@mixin mobile {
+  @media (max-width: 640px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1025px) {
+    @content;
+  }
+}

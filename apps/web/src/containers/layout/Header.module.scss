@@ -1,0 +1,29 @@
+@import 'assets/styles/variables.scss';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-height: 60px;
+  font-size: 1em;
+  @include mobile {
+    max-height: 40px;
+  }
+}
+
+.logo {
+  height: 60px;
+  width: 60px;
+
+  > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.link {
+  display: block;
+  color: $info;
+}

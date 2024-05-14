@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react';
-import { Todo } from 'components/Todo';
+import { TodoContent } from 'assets/common/TodoContent';
+import style from './TodoList.module.scss';
+import { Button, Input } from 'assets/common';
 
 function TodoList() {
   const [todo, setTodo] = useState<string>('');
@@ -33,37 +35,25 @@ function TodoList() {
   };
 
   return (
-    <>
-      <h3>할일 목록</h3>
-      <form onSubmit={addTodo}>
-        <input
-          ref={todoInputRef}
-          type="text"
-          value={todo}
-          onChange={handleTodoOnChange}
-          maxLength={100}
-        />
-        <button>추가</button>
-      </form>
+    <section>
+      <div className={style.header}>
+        <h3>할일 목록</h3>
+        <form onSubmit={addTodo}>
+          <Input ref={todoInputRef} onChange={handleTodoOnChange} />
+          <Button title="ADD" />
+        </form>
+      </div>
+
       {todoList.length > 0 && (
-        <ul>
-          {todoList.map((todo: string, i: number) => {
-            return (
-              <Todo
-                key={`할일_${i}`}
-                index={i}
-                todoInfo={todo}
-                button={
-                  <div>
-                    <button onClick={() => successTodo(todo)}>완료</button>
-                  </div>
-                }
-              />
-            );
-          })}
+        <ul className={style.list}>
+          {todoList.map((todo: string, i: number) => (
+            <li key={`할일_${i}`}>
+              <TodoContent label={todo} onChange={() => successTodo(todo)} />
+            </li>
+          ))}
         </ul>
       )}
-    </>
+    </section>
   );
 }
 
