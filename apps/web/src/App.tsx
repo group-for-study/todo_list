@@ -1,5 +1,5 @@
-import Header from './Header';
-import TodoList from '../../components/TodoList';
+import Header from './containers/layout/Header';
+import TodoList from './pages/todoList/TodoList';
 
 function App() {
   return (
