@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Todo } from '../../components/Todo';
+import { Todo } from 'components/Todo';
 
 function TodoList() {
   const [todo, setTodo] = useState<string>('');
