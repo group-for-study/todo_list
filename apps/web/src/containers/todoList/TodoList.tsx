@@ -3,48 +3,52 @@ import { TodoContent } from 'assets/common/TodoContent';
 import style from './TodoList.module.scss';
 import { Button, Input } from 'assets/common';
 import { postTodo, getTodos } from 'apis/api/todo';
+import { GetTodoData } from './dto/response/TodoRequest';
+import { PostTodoData } from './dto/request/TodoResponse';
 
 function TodoList() {
   const [todo, setTodo] = useState<string>('');
-  const [todoList, setTodoList] = useState<string[]>([]);
+  const [todoList, setTodoList] = useState<GetTodoData[]>([]);
 
   const todoInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    async function getTodo(){
-      const todos = await getTodos();
-      console.log(todos);
+    async function getTodoData () {
+      const res = await getTodos();
+      setTodoList(res.data);
     }
-    getTodo();
+    getTodoData();
   }, [])
 
-  const successTodo = (successTodo: string): void => {
+  const successTodo = (id: string): void => {
     console.log(`successTodo : ${successTodo}`);
-    const updateTodoList = todoList.filter((todo: string): boolean => todo !== successTodo);
+    const updateTodoList = todoList.filter((todo: GetTodoData): boolean => todo.id !== id);
     setTodoList(updateTodoList);
   };
 
-  const handleTodoOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('handleTodoOnChange');
+  const changeTodoInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('changeTodoInput');
     setTodo(e.target.value);
   };
 
-  const addTodo = (e: React.FormEvent<HTMLFormElement>) => {
+  const addTodo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('addTodo');
     if (todo.trim() === '') {
       alert('할 일은 반드시 적어야 합니다.');
     } else {
-      const requestTodo = {
+      const requestTodo: PostTodoData= {
+        isDone: false,
         content: todo,
       }
-      postTodo(requestTodo);
-      setTodo('');
-      // setTodoList((prevTodoList: string[]): string[] => {
-      //   return [...prevTodoList, todo];
-      // });
+      await postTodo(requestTodo)
+        .then(({data}) => {
+          setTodoList((prevTodoList: GetTodoData[]): GetTodoData[] => {
+            return [...prevTodoList, data];
+          });
+        });
+      setTodo('');  
     }
-    todoInputRef.current!.focus();
   };
 
   return (
@@ -52,16 +56,16 @@ function TodoList() {
       <div className={style.header}>
         <h3>할일 목록</h3>
         <form onSubmit={addTodo}>
-          <Input ref={todoInputRef} onChange={handleTodoOnChange} />
+          <Input ref={todoInputRef} onChange={changeTodoInput} />
           <Button title="ADD" />
         </form>
       </div>
 
       {todoList.length > 0 && (
         <ul className={style.list}>
-          {todoList.map((todo: string, i: number) => (
+          {todoList.map((todo: GetTodoData, i: number) => (
             <li key={`할일_${i}`}>
-              <TodoContent label={todo} onChange={() => successTodo(todo)} />
+              <TodoContent label={todo.content} onChange={() => successTodo(todo.id)} />
             </li>
           ))}
         </ul>
