@@ -1,13 +1,22 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { TodoContent } from 'assets/common/TodoContent';
 import style from './TodoList.module.scss';
 import { Button, Input } from 'assets/common';
+import { postTodo, getTodos } from 'apis/api/todo';
 
 function TodoList() {
   const [todo, setTodo] = useState<string>('');
   const [todoList, setTodoList] = useState<string[]>([]);
 
   const todoInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    async function getTodo(){
+      const todos = await getTodos();
+      console.log(todos);
+    }
+    getTodo();
+  }, [])
 
   const successTodo = (successTodo: string): void => {
     console.log(`successTodo : ${successTodo}`);
@@ -26,10 +35,14 @@ function TodoList() {
     if (todo.trim() === '') {
       alert('할 일은 반드시 적어야 합니다.');
     } else {
+      const requestTodo = {
+        content: todo,
+      }
+      postTodo(requestTodo);
       setTodo('');
-      setTodoList((prevTodoList: string[]): string[] => {
-        return [...prevTodoList, todo];
-      });
+      // setTodoList((prevTodoList: string[]): string[] => {
+      //   return [...prevTodoList, todo];
+      // });
     }
     todoInputRef.current!.focus();
   };
