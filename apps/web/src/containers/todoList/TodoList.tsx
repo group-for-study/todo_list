@@ -1,27 +1,24 @@
 import { useState, useEffect } from 'react';
-import { TodoContent } from 'assets/common/TodoContent';
+import { Button, Input, TodoContent } from 'assets/common';
+import { TodoContentType } from 'assets/types/api';
+import { API, APILIST } from 'assets/utils';
 import style from './TodoList.module.scss';
-import { Button, Input } from 'assets/common';
-import { postTodo, getTodos } from 'apis/api/todo';
-import { GetTodoData } from './dto/response/TodoRequest';
-import { PostTodoData } from './dto/request/TodoResponse';
-import { AxiosResponse } from 'axios';
 
 function TodoList() {
   const [todo, setTodo] = useState<string>('');
-  const [todoList, setTodoList] = useState<GetTodoData[]>([]);
+  const [todoList, setTodoList] = useState<TodoContentType[]>([]);
 
   useEffect(() => {
-    async function getTodoData () {
-      const res: AxiosResponse<GetTodoData[]>  = await getTodos();
-      setTodoList(res.data);
-    }
-    getTodoData();
-  }, [])
+    getTodoListData();
+  }, []);
+
+  const getTodoListData = async () => {
+    const data = await API(APILIST.todoList()).catch(() => []);
+    setTodoList(data);
+  };
 
   const successTodo = (id: string): void => {
-    console.log(`successTodo : ${successTodo}`);
-    const updateTodoList = todoList.filter((todo: GetTodoData): boolean => todo.id !== id);
+    const updateTodoList = todoList.filter((todo) => todo._id !== id);
     setTodoList(updateTodoList);
   };
 
@@ -32,22 +29,18 @@ function TodoList() {
 
   const addTodo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('addTodo');
-    if (todo.trim() !== '') {
-      const requestTodo: PostTodoData= {
+
+    if (todo.trim() === '') {
+      return alert('할 일은 반드시 적어야 합니다.');
+    }
+    const res = await API(
+      APILIST.postTodoList({
         isDone: false,
         content: todo,
-      }
-      await postTodo(requestTodo)
-        .then(({data}) => {
-          setTodoList((prevTodoList: GetTodoData[]): GetTodoData[] => {
-            return [...prevTodoList, data];
-          });
-        });
-      setTodo('');  
-    }
-
-    alert('할 일은 반드시 적어야 합니다.');
+      }),
+    );
+    setTodoList((prev) => [...prev, res]);
+    setTodo('');
   };
 
   return (
@@ -62,9 +55,9 @@ function TodoList() {
 
       {todoList.length > 0 && (
         <ul className={style.list}>
-          {todoList.map((todo: GetTodoData, i: number) => (
+          {todoList.map((todo, i: number) => (
             <li key={`할일_${i}`}>
-              <TodoContent label={todo.content} onChange={() => successTodo(todo.id)} />
+              <TodoContent label={todo.content} onChange={() => successTodo(todo._id)} />
             </li>
           ))}
         </ul>
