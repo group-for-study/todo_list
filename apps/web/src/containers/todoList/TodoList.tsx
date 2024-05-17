@@ -5,6 +5,7 @@ import { Button, Input } from 'assets/common';
 import { postTodo, getTodos } from 'apis/api/todo';
 import { GetTodoData } from './dto/response/TodoRequest';
 import { PostTodoData } from './dto/request/TodoResponse';
+import { AxiosResponse } from 'axios';
 
 function TodoList() {
   const [todo, setTodo] = useState<string>('');
@@ -14,7 +15,7 @@ function TodoList() {
 
   useEffect(() => {
     async function getTodoData () {
-      const res = await getTodos();
+      const res: AxiosResponse<GetTodoData[]>  = await getTodos();
       setTodoList(res.data);
     }
     getTodoData();
@@ -34,9 +35,7 @@ function TodoList() {
   const addTodo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('addTodo');
-    if (todo.trim() === '') {
-      alert('할 일은 반드시 적어야 합니다.');
-    } else {
+    if (todo.trim() !== '') {
       const requestTodo: PostTodoData= {
         isDone: false,
         content: todo,
@@ -49,6 +48,8 @@ function TodoList() {
         });
       setTodo('');  
     }
+    
+    alert('할 일은 반드시 적어야 합니다.');
   };
 
   return (
