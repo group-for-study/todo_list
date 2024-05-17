@@ -15,4 +15,7 @@
 
 .list {
   margin-top: 1rem;
+  li + li {
+    margin-top: 0.4rem;
+  }
 }
