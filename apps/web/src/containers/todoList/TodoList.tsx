@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { TodoContent } from 'assets/common/TodoContent';
 import style from './TodoList.module.scss';
 import { Button, Input } from 'assets/common';
@@ -10,8 +10,6 @@ import { AxiosResponse } from 'axios';
 function TodoList() {
   const [todo, setTodo] = useState<string>('');
   const [todoList, setTodoList] = useState<GetTodoData[]>([]);
-
-  const todoInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     async function getTodoData () {
@@ -48,7 +46,7 @@ function TodoList() {
         });
       setTodo('');  
     }
-    
+
     alert('할 일은 반드시 적어야 합니다.');
   };
 
@@ -57,7 +55,7 @@ function TodoList() {
       <div className={style.header}>
         <h3>할일 목록</h3>
         <form onSubmit={addTodo}>
-          <Input ref={todoInputRef} onChange={changeTodoInput} />
+          <Input onChange={changeTodoInput} />
           <Button title="ADD" />
         </form>
       </div>
