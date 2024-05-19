@@ -6,11 +6,11 @@ type Props = {
   value?: string;
 };
 
-export const Input = forwardRef<HTMLInputElement, Props>(({ onChange, value }, ref) => {
+export const Input = forwardRef<HTMLInputElement, Props>(({ onChange, value }) => {
+
   return (
     <input
       className={style.input}
-      ref={ref}
       type="text"
       value={value}
       onChange={(e) => onChange(e)}
