@@ -1,10 +1,10 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument, ObjectId } from 'mongoose';
 
-export type TodoListDoc = HydratedDocument<TodoList>;
+export type TodoListDoc = HydratedDocument<TodoContent>;
 
 @Schema({ timestamps: true })
-export class TodoList {
+export class TodoContent {
   @Prop({ type: mongoose.Schema.Types.ObjectId })
   public id: ObjectId;
 
@@ -20,5 +20,5 @@ export class TodoList {
   public content: string;
 }
 
-export const TodoListSchema = SchemaFactory.createForClass(TodoList);
+export const TodoListSchema = SchemaFactory.createForClass(TodoContent);
 export const TodoListModel = mongoose.model('todoListModel', TodoListSchema);
