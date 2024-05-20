@@ -16,6 +16,10 @@ export class TodoService {
     return this.todoModel.find().exec();
   }
 
+  async editTodo(id: string, todoContent: CreateTodoListDto) {
+    return this.todoModel.updateOne({ _id: id }, { $set: todoContent });
+  }
+
   async deleteTodoList(id: string) {
     return this.todoModel.deleteOne({ _id: id });
   }

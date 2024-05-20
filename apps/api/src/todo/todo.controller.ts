@@ -1,8 +1,7 @@
-import { Body, Controller, Delete, Get, Post, Param } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Param, Patch } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoListDto } from './todo.dto';
-import { ApiCreatedResponse, ApiProperty, ApiResponse, getSchemaPath } from '@nestjs/swagger';
-import { TodoList, TodoListSchema, TodoListModel } from './todo.schema';
+import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('todo')
 export class TodoController {
@@ -39,6 +38,16 @@ export class TodoController {
   @Post()
   async createTodoList(@Body() createTodoListDto: CreateTodoListDto) {
     return this.todoService.create(createTodoListDto);
+  }
+
+  /**
+   * todo 수정
+   * @param id target ID
+   * @returns result
+   */
+  @Patch(':id')
+  async fetchTodoList(@Body() todoContent: CreateTodoListDto, @Param('id') id: string) {
+    return this.todoService.editTodo(id, todoContent);
   }
 
   /**
