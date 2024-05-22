@@ -26,6 +26,12 @@ export class TodoContent {
    */
   @Prop({ required: true })
   public importance: number;
+
+  /**
+   * 할일을 할 날짜
+   */
+  @Prop({ required: true })
+  public date: Date;
 }
 
 export const TodoListSchema = SchemaFactory.createForClass(TodoContent);
