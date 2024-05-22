@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
+import { IsBoolean, IsInt, IsNotEmpty, IsString, Max, Min } from 'class-validator';
 
 export class CreateTodoListDto {
   /**
@@ -12,4 +12,11 @@ export class CreateTodoListDto {
    */
   @IsString()
   public content: string;
+  /**
+   * 중요도
+   */
+  @IsInt()
+  @Min(1)
+  @Max(10)
+  public importance: number;
 }

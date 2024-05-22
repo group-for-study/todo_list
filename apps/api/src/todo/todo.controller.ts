@@ -1,8 +1,7 @@
-import { Body, Controller, Delete, Get, Post, Param } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Param, Patch } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoListDto } from './todo.dto';
-import { ApiCreatedResponse, ApiProperty, ApiResponse, getSchemaPath } from '@nestjs/swagger';
-import { TodoList, TodoListSchema, TodoListModel } from './todo.schema';
+import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('todo')
 export class TodoController {
@@ -29,23 +28,33 @@ export class TodoController {
     },
   })
   @Get()
-  async getTodoList() {
-    return await this.todoService.getAll();
+  getTodoList() {
+    return this.todoService.getAll();
   }
 
   /**
    * todo list 생성
    */
   @Post()
-  async createTodoList(@Body() createTodoListDto: CreateTodoListDto) {
+  createTodoList(@Body() createTodoListDto: CreateTodoListDto) {
     return this.todoService.create(createTodoListDto);
+  }
+
+  /**
+   * todo 수정
+   * @param id target ID
+   * @returns result
+   */
+  @Patch(':id')
+  fetchTodoList(@Body() todoContent: CreateTodoListDto, @Param('id') id: string) {
+    return this.todoService.editTodo(id, todoContent);
   }
 
   /**
    * 특정 id의 todo list 삭제
    */
   @Delete(':id')
-  async deleteTodoList(@Param('id') id: string) {
+  deleteTodoList(@Param('id') id: string) {
     return this.todoService.deleteTodoList(id);
   }
 }
