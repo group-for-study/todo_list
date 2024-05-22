@@ -28,15 +28,15 @@ export class TodoController {
     },
   })
   @Get()
-  async getTodoList() {
-    return await this.todoService.getAll();
+  getTodoList() {
+    return this.todoService.getAll();
   }
 
   /**
    * todo list 생성
    */
   @Post()
-  async createTodoList(@Body() createTodoListDto: CreateTodoListDto) {
+  createTodoList(@Body() createTodoListDto: CreateTodoListDto) {
     return this.todoService.create(createTodoListDto);
   }
 
@@ -46,7 +46,7 @@ export class TodoController {
    * @returns result
    */
   @Patch(':id')
-  async fetchTodoList(@Body() todoContent: CreateTodoListDto, @Param('id') id: string) {
+  fetchTodoList(@Body() todoContent: CreateTodoListDto, @Param('id') id: string) {
     return this.todoService.editTodo(id, todoContent);
   }
 
@@ -54,7 +54,7 @@ export class TodoController {
    * 특정 id의 todo list 삭제
    */
   @Delete(':id')
-  async deleteTodoList(@Param('id') id: string) {
+  deleteTodoList(@Param('id') id: string) {
     return this.todoService.deleteTodoList(id);
   }
 }

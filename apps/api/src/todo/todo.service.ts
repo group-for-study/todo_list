@@ -12,15 +12,15 @@ export class TodoService {
     return createTodoList.save();
   }
 
-  async getAll(): Promise<TodoContent[]> {
-    return this.todoModel.find().exec();
+  getAll() {
+    return this.todoModel.find();
   }
 
-  async editTodo(id: string, todoContent: CreateTodoListDto) {
+  editTodo(id: string, todoContent: CreateTodoListDto) {
     return this.todoModel.updateOne({ _id: id }, { $set: todoContent });
   }
 
-  async deleteTodoList(id: string) {
+  deleteTodoList(id: string) {
     return this.todoModel.deleteOne({ _id: id });
   }
 }
