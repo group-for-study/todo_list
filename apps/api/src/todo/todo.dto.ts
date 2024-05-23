@@ -1,4 +1,5 @@
-import { IsBoolean, IsInt, IsNotEmpty, IsString, Max, Min } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsBoolean, ValidateIf, IsInt, IsNotEmpty, IsString, Max, Min } from 'class-validator';
 
 export class CreateTodoListDto {
   /**
@@ -19,4 +20,22 @@ export class CreateTodoListDto {
   @Min(1)
   @Max(10)
   public importance: number;
+
+  /**
+   * 할일을 할 날짜
+   */
+  @Transform(() => Date)
+  public date: Date;
+}
+
+export class InquiryTodoListByDateDto {
+  @ValidateIf((dto) => dto.startDate || dto.endDate)
+  @IsNotEmpty()
+  @Transform(() => Date)
+  public startDate: Date;
+
+  @ValidateIf((dto) => dto.startDate || dto.endDate)
+  @IsNotEmpty()
+  @Transform(() => Date)
+  public endDate: Date;
 }
