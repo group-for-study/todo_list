@@ -1,0 +1,16 @@
+@import 'assets/styles/variables.scss';
+
+.month {
+  display: flex;
+  justify-content: center;
+}
+
+.week {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  .day {
+    margin: 20px;
+  }
+}

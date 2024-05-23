@@ -3,10 +3,13 @@ import { Button, Input, TodoContent } from 'assets/common';
 import { TodoContentType } from 'assets/types/api';
 import { API, APILIST } from 'assets/utils';
 import style from './TodoList.module.scss';
+import { CustomCalendar } from 'assets/common/calendar/CustomCalendar';
 
 function TodoList() {
   const [todo, setTodo] = useState<string>('');
   const [todoList, setTodoList] = useState<TodoContentType[]>([]);
+  const [prevDate, setPrevDate] = useState<string>('');
+  const [lastDate, setLastDate] = useState<string>('');
 
   useEffect(() => {
     getTodoListData();
@@ -29,6 +32,7 @@ function TodoList() {
 
   const addTodo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log('addTodo');
 
     if (todo.trim() === '') {
       return alert('할 일은 반드시 적어야 합니다.');
@@ -43,12 +47,28 @@ function TodoList() {
     setTodo('');
   };
 
+  const changePrevDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPrevDate(e.target.value)
+  }
+  const changeLastDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLastDate(e.target.value);
+  }
+
   return (
     <section>
       <div className={style.header}>
         <h3>할일 목록</h3>
+        <div>
+          <CustomCalendar />
+        </div>
+        <div className={style.inputDate}>
+          <Input value={prevDate} onChange={changePrevDate} inputType='date' />
+          ~
+          <Input value={lastDate} onChange={changeLastDate} inputType='date' />
+          <Button title="조회" />
+        </div>
         <form onSubmit={addTodo}>
-          <Input onChange={changeTodoInput} />
+          <Input onChange={changeTodoInput} inputType={"text"}/>
           <Button title="ADD" />
         </form>
       </div>
