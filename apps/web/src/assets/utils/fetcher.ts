@@ -13,10 +13,7 @@ export const APILIST = {
       (res) => res.data,
     ),
   postTodoList: (data: { isDone: boolean; content: string }) =>
-    Axios<TodoContentType>({
-      url: '/todo',
-      data,
-    }).then((res) => res.data),
+    Axios.post<TodoContentType>('/todo', data).then((res) => res.data),
 };
 
 export const API = <T extends Promise<any>>(target: T): ReturnType<() => Promise<T>> => {
