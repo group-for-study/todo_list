@@ -34,9 +34,11 @@ function TodoList() {
 
   const successTodo = async (id: string) => {
     const updateselectDayTodoList: TodoContentType[] = selectDayTodoList.filter((todo) => todo._id !== id);
+    const updateTodoList: TodoContentType[] = todoList.filter((todo) => todo._id !== id);
 
     await API(APILIST.deleteTodoList(id)).catch(() => []);
     setSelectDayTodoList(updateselectDayTodoList);
+    setTodoList(updateTodoList);
   };
   const updateTodo = async (id: string, content: string, isDone?: boolean, importance?: number) => {
     const data = {
@@ -88,7 +90,7 @@ function TodoList() {
   }
 
   return (
-    <TodoContext.Provider value={{todo, setTodo, todoList, setTodoList, setSelectDayTodoList}}>
+    <TodoContext.Provider value={{todo, setTodo, todoList, setTodoList, selectDayTodoList, setSelectDayTodoList}}>
       <section>
         <div className={style.header}>
           <h3>할일 목록</h3>
