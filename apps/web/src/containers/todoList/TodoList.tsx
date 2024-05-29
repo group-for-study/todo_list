@@ -33,11 +33,11 @@ function TodoList() {
   };
 
   const successTodo = async (id: string) => {
-    const updateselectDayTodoList: TodoContentType[] = todoList.filter((todo) => todo._id !== id);
+    const updateselectDayTodoList: TodoContentType[] = selectDayTodoList.filter((todo) => todo._id !== id);
+
     await API(APILIST.deleteTodoList(id)).catch(() => []);
     setSelectDayTodoList(updateselectDayTodoList);
   };
-
   const updateTodo = async (id: string, content: string, isDone?: boolean, importance?: number) => {
     const data = {
       content,
