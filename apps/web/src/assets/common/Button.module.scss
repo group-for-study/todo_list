@@ -20,6 +20,10 @@
     background-color: $white;
     color: $dark-gray;
   }
+  &.red {
+    background-color: $danger;
+    color: $white
+  }
   &:hover {
     cursor: pointer;
   }
