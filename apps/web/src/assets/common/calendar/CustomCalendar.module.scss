@@ -9,8 +9,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  .day {
+
+  .clicked {
+    background: gray;
     margin: 20px;
   }
+
+  .dayContent {
+    width: 70px;
+    height: 120px;
+
+    .day {
+      margin: 20px;
+    }
+
+    .today {
+      color: skyblue;
+    }
+  }
+}
+
+.year {
+  position: relative;
+  display: flex;
+  justify-content: center;
 }
