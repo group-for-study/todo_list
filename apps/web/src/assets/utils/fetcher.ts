@@ -7,7 +7,12 @@ export const Axios = axios.create({
 });
 
 export const APILIST = {
-  todoList: () => Axios.get<Array<TodoContentType>>('/todo').then((res) => res.data),
+  todoList: async (startDate?: string, endDate?: string) => {
+    if(startDate) {
+      return await Axios.get<Array<TodoContentType>>(`/todo?startDate=${startDate}&endDate=${endDate}`).then((res) => res.data)
+    }
+    return await Axios.get<Array<TodoContentType>>(`/todo`).then((res) => res.data)
+  },
   deleteTodoList: (id: string) =>
     Axios.delete<{ acknowledged: boolean; deletedCount: number }>(`/todo/${id}`).then(
       (res) => res.data,
