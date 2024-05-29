@@ -72,8 +72,10 @@ function TodoList() {
   const getSelectDate = async () => {
     const prevDay = parseInt(prevDate.split("-")[2])
     const lastDay = parseInt(lastDate.split("-")[2])
-    if(prevDay > lastDay) {
+    
+    if(prevDay > lastDay || prevDate === "" || lastDate === "") {
       alert('조회 날짜를 다시 확인 해 주세요');
+      return;
     }
     if(prevDay + 7 < lastDay) {
       alert('최소 1일 최대 7일 기간으로 조회 가능합니다.');
