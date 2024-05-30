@@ -20,7 +20,7 @@ export class TodoService {
     return this.todoModel.find({
       date: {
         $gte: period.startDate,
-        $lt: period.endDate,
+        $lte: period.endDate,
       },
     });
   }

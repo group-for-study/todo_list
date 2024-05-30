@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Param, Patch, Query } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoListDto, InquiryTodoListByDateDto } from './todo.dto';
 import { ApiResponse } from '@nestjs/swagger';
@@ -30,7 +30,7 @@ export class TodoController {
     },
   })
   @Get()
-  getTodoList(@Body() inquiryTodoListByDateDto: InquiryTodoListByDateDto) {
+  getTodoList(@Query() inquiryTodoListByDateDto: InquiryTodoListByDateDto) {
     if (inquiryTodoListByDateDto.hasOwnProperty('startDate')) {
       return this.todoService.getPeriod(inquiryTodoListByDateDto);
     }
