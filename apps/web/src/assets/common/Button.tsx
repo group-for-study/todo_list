@@ -5,7 +5,7 @@ type Props = {
   title: string;
   onClick?: (e: MouseEvent) => void;
   rounded?: boolean;
-  color?: 'secondary' | 'white' | 'default';
+  color?: 'secondary' | 'white' | 'default' | 'red';
 };
 
 export function Button({ title, onClick, rounded = false, color = 'default' }: Props) {

@@ -7,16 +7,21 @@ export const Axios = axios.create({
 });
 
 export const APILIST = {
-  todoList: () => Axios.get<Array<TodoContentType>>('/todo').then((res) => res.data),
+  todoList: async (startDate?: string, endDate?: string) => {
+    if(startDate) {
+      return await Axios.get<Array<TodoContentType>>(`/todo?startDate=${startDate}&endDate=${endDate}`).then((res) => res.data)
+    }
+    return await Axios.get<Array<TodoContentType>>(`/todo`).then((res) => res.data)
+  },
   deleteTodoList: (id: string) =>
     Axios.delete<{ acknowledged: boolean; deletedCount: number }>(`/todo/${id}`).then(
       (res) => res.data,
     ),
-  postTodoList: (data: { isDone: boolean; content: string }) =>
-    Axios<TodoContentType>({
-      url: '/todo',
-      data,
-    }).then((res) => res.data),
+  postTodoList: (data: { isDone: boolean; content: string, importance: number }) =>
+    Axios.post<TodoContentType>('/todo', data).then((res) => res.data),
+  patchTodoList: async (id: string, data: {isDone: boolean; content: string, importance: number}) => {
+    await Axios.patch<TodoContentType>(`/todo/${id}`, data).then((res) => res.data);
+  }
 };
 
 export const API = <T extends Promise<any>>(target: T): ReturnType<() => Promise<T>> => {
