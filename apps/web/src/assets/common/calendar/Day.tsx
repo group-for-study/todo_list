@@ -13,7 +13,7 @@ interface Props {
 }
 
 export function Day ({ day, clicked, i, onClick }: Props) {
-  const { todoList, selectDayTodoList } = useContext(TodoContext);
+  const { todoList } = useContext(TodoContext);
   
   const selectDate = momentFormat(day[1]);
   const findTodo = todoList.find((todo: TodoContentType) => moment(todo.date).format('YYYY-MM-DD') === moment(day[1]).format('YYYY-MM-DD'));
@@ -25,7 +25,7 @@ export function Day ({ day, clicked, i, onClick }: Props) {
       return;
     }
     setCheckTodo(false);
-  }, [selectDayTodoList]);
+  }, [todoList]);
   
   const dayInfo = day[1];
   const weekInfo = day[2];
