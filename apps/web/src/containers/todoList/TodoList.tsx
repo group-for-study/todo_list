@@ -90,7 +90,7 @@ function TodoList() {
   }
 
   return (
-    <TodoContext.Provider value={{todo, setTodo, todoList, setTodoList, selectDayTodoList, setSelectDayTodoList}}>
+    <TodoContext.Provider value={{todo, setTodo, todoList, setTodoList, setSelectDayTodoList}}>
       <section>
         <div className={style.header}>
           <h3>할일 목록</h3>
