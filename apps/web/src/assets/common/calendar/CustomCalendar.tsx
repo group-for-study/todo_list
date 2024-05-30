@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import moment from "moment";
 import { Input } from "../Input";
 import style from "./CustomCalendar.module.scss";
@@ -43,7 +43,7 @@ export function CustomCalendar() {
   const [date, setDate] = useState<Date>(now);
   const [week, setWeek] = useState<WeekDay[]>(() => makeWeekArr(now));
   const [selectDay, setSelectDay] = useState<string>(null);
-  const [importance, setImportance] = useState<string>("1");
+  const [importance, setImportance] = useState<number>(1);
   const [clicked, setClicked] = useState<number>(null);
   const [month, setMonth] = useState<string>(moment(date).format('M'));
   const [year, setYear] = useState<string>(moment(date).format('Y'));
@@ -51,46 +51,26 @@ export function CustomCalendar() {
   const [isSearchDate, setIsSearchDate] = useState(false);
   const [searchDate, setSearchDate] = useState('');
 
-  useEffect(() => {
-    let date = week[week.length-1][1];
-    let newDate = new Date(date.valueOf() + 86400000 * 7);
-    let newYear = moment(date).format('Y');
-    let newMonth = moment(date).format('M');
-    setDate(newDate);
-    setYear(newYear);
-    setMonth(newMonth);
-    async function aa () {
-      await getTodoListData(momentFormat(week[0][1]), momentFormat(week[week.length-1][1]));
-    }
-    aa();
-  }, [week]);
-
-  const toggleDropdown = () => {
-    setIsSearchDate(!isSearchDate);
-  };
   const changeSearchDate = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchDate = e.target.value;
-    setSearchDate(searchDate);
     const newWeek = makeWeekArr(new Date(searchDate));
+    setSearchDate(searchDate);
     setWeek(newWeek);
   }
 
-  const addTodo = async (e: React.MouseEvent<Element, MouseEvent>) => {
-    e.preventDefault();
-
+  const addTodo = async () => {
     if (todo.trim() === '') {
       return alert('할 일은 반드시 적어야 합니다.');
     }
+
     const req: PostTodoListBody = {
       isDone: false,
       content: todo,
-      importance: parseInt(importance),
+      importance: importance,
       date: selectDay,
     } 
 
-    const res = await API(
-      APILIST.postTodoList(req),
-    );
+    const res = await API(APILIST.postTodoList(req));
     setTodoList((prev: TodoContentType[]) => [...prev, res]);
     setSelectDayTodoList((prev: TodoContentType[]) => [...prev, res]);
     setTodo('');
@@ -101,32 +81,15 @@ export function CustomCalendar() {
     setTodoList(data);
   };
 
-  const getDayTodoListData = async (startDate: string, endDate: string) => {
+  const getTodoListDayData = async (startDate: string, endDate: string) => {
     const data: TodoContentType[] = await API(APILIST.todoList(startDate, endDate)).catch(() => []);
     setSelectDayTodoList(data);
   };
 
-  //일주일 전(이전주)
-  const onPressArrowLeft = async () => {
-    let date = week[0][1];
-    let newDate = new Date(date.valueOf() - 86400000 * 7);
-    let newWeek = makeWeekArr(newDate);
-    let newYear = moment(date).format('Y');
-    let newMonth = moment(date).format('M');
-    await getTodoListData(newWeek[0][1].toString(), newWeek[newWeek.length-1][1].toString());
-    setDate(newDate);
-    setWeek(newWeek);
-    setYear(newYear);
-    setMonth(newMonth);
-  };
-
-  //일주일 후(다음주)
-  const onPressArrowRight = async () => {
-    let date = week[week.length-1][1];
-    let newDate = new Date(date.valueOf() + 86400000 * 7);
-    let newWeek = makeWeekArr(newDate);
-    let newYear = moment(date).format('Y');
-    let newMonth = moment(date).format('M');
+  const getWeekData = async (date: Date, newDate: Date) => {
+    const newWeek = makeWeekArr(newDate);
+    const newYear = moment(date).format('Y');
+    const newMonth = moment(date).format('M');
     await getTodoListData(momentFormat(newWeek[0][1]), momentFormat(newWeek[newWeek.length-1][1]));
     setDate(newDate);
     setWeek(newWeek);
@@ -134,46 +97,63 @@ export function CustomCalendar() {
     setMonth(newMonth);
   };
 
+  //일주일 전(이전주)
+  const clickPrevWeek = async () => {
+    const date = week[0][1];
+    const newDate = new Date(date.valueOf() - 86400000 * 7);
+    await getWeekData(date, newDate);
+  };
+
+  //일주일 후(다음주)
+  const clickNextWeek = async () => {
+    const date = week[week.length-1][1];
+    const newDate = new Date(date.valueOf() + 86400000 * 7);
+    await getWeekData(date, newDate);
+  };
+
   //날짜 클릭
   const selectClicktDay = async (date: string, i: number) => {
     const today = momentFormat(date);
-    await getDayTodoListData(today, today);
+    await getTodoListDayData(today, today);
     setSelectDay(date);
     setClicked(i);
   }
 
-  //취소 버튼
-  const cancelTodo = () => {
-    setSelectDay(null);
-  }
-
-  const changeTodoInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTodo(e.target.value);
-  };
-
   const changeImportanceInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let importance = parseInt(e.target.value);
+    const importance = parseInt(e.target.value);
 
     if(importance > 10 || importance <= 0) {
-      alert('1점이상 10점 이하로 입력할 수 있습니다.');
-      return;
+      return alert('1점이상 10점 이하로 입력할 수 있습니다.');
     } else if(importanceRegex(importance)) {
-      alert('숫자만 입력 가능합니다.')
-      return;
+      return alert('숫자만 입력 가능합니다.')
     }
 
-    setImportance(e.target.value);
+    setImportance(importance);
   };
+
+    //취소 버튼
+  // const cancelTodo = () => {
+  //   setSelectDay(null);
+  // }
+
+  // const changeTodoInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setTodo(e.target.value);
+  // };
+
+  //날짜 클릭 시 날짜 선택하는 input 나오는 기능
+  // const clickSelectDate = () => {
+  //   setIsSearchDate(!isSearchDate);
+  // };
 
   return (
     <div>
       <div className={style.year}>
-        <ArrowButton color="white" onClick={onPressArrowLeft}/>
-        <h4 className={style.month} onClick={toggleDropdown}>
+        <ArrowButton color="white" onClick={clickPrevWeek}/>
+        <h4 className={style.month} onClick={() => setIsSearchDate(!isSearchDate)}>
           {`${year}년`} {`${month}월`}
         </h4>
         {isSearchDate && <><input type="date" value={searchDate} onChange={changeSearchDate}/></>}
-        <ArrowButton left={false} color="white" onClick={onPressArrowRight}/>
+        <ArrowButton left={false} color="white" onClick={clickNextWeek}/>
       </div>
       <div className={style.week}>
         {
@@ -189,10 +169,10 @@ export function CustomCalendar() {
       { selectDay && (
         <div>
           <span>{selectDay}</span>
-          <Input inputType="text" value={todo} onChange={changeTodoInput}/>
-          <span>중요도: </span><Input inputType="number" value={importance} onChange={changeImportanceInput}/>
+          <Input inputType="text" value={todo} onChange={(e) => setTodo(e.target.value)}/>
+          <span>중요도: </span><Input inputType="number" value={String(importance)} onChange={changeImportanceInput}/>
           <Button title="ADD" onClick={addTodo}/>
-          <Button title="CANCEL" color="secondary" onClick={cancelTodo}/>
+          <Button title="CANCEL" color="secondary" onClick={() => {setSelectDay(null); setClicked(null)}}/>
         </div>
       )}
     </div>

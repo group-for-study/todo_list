@@ -14,7 +14,6 @@ interface Props {
 
 export function Day ({ day, clicked, i, onClick }: Props) {
   const { todoList } = useContext(TodoContext);
-  
   const selectDate = momentFormat(day[1]);
   const findTodo = todoList.find((todo: TodoContentType) => moment(todo.date).format('YYYY-MM-DD') === moment(day[1]).format('YYYY-MM-DD'));
   const [checkTodo, setCheckTodo] = useState<boolean>(findTodo);
@@ -33,7 +32,6 @@ export function Day ({ day, clicked, i, onClick }: Props) {
   return (
     <div className={style.dayContent}>
       {
-        
         <div className={clicked === i ? style.clicked : style.day} key={i} onClick={() => onClick(selectDate, i)}>
         <p>{weekInfo}</p>
         <p>{moment(dayInfo).format('D')}</p>
